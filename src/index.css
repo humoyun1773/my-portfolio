@@ -457,18 +457,75 @@ a {
 .chip-4 { bottom: 20%; right: 2%; animation-delay: 1.5s; }
 .chip-5 { top: 50%; right: -2%; animation-delay: 2.5s; }
 
-@keyframes floatAnim {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(2deg);
+/* ==========================================================
+   Comprehensive Responsive Media Query System
+   (Mobile 320px - 480px, Tablet 481px - 1024px, Desktop 1025px+)
+   ========================================================== */
+
+/* Touch & Mobile Optimizations */
+@media (hover: none) {
+  .tilt-card {
+    transform: none !important;
   }
 }
 
+/* Base Mobile Overflows & Resets */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Small to Medium Mobile (< 640px) */
 @media (max-width: 640px) {
+  .container {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .section {
+    padding: 4rem 0 !important;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem !important;
+  }
+
+  .section-title {
+    font-size: 1.85rem !important;
+  }
+
+  .section-desc {
+    font-size: 0.95rem !important;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
   .floating-chip {
-    display: none;
+    display: none !important;
+  }
+
+  .btn {
+    padding: 0.7rem 1.25rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+}
+
+/* Extra Small Phones (< 420px) */
+@media (max-width: 420px) {
+  .section-title {
+    font-size: 1.65rem !important;
+  }
+
+  .btn {
+    width: 100% !important;
   }
 }
 
@@ -494,7 +551,8 @@ a {
     display: none !important;
   }
   .hero-grid {
-    grid-template-columns: 1.1fr 0.9fr !important;
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 3rem !important;
   }
 }
 
