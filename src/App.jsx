@@ -1,122 +1,96 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Interactive3DBackground from './components/3d/Interactive3DBackground';
+import Navbar from './components/ui/Navbar';
+import Footer from './components/ui/Footer';
+import { AppRoutes } from './routes';
+import { THEMES } from './data/portfolioData';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [currentTheme, setCurrentTheme] = useState(THEMES[0]);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    document.body.className = currentTheme.bgClass;
+  }, [currentTheme]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (windowHeight > 0) {
+        const scroll = (totalScroll / windowHeight) * 100;
+        setScrollProgress(scroll);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+        {/* Top Scroll Neon Progress Bar */}
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: `${scrollProgress}%`,
+            height: '3px',
+            background: 'linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, #ec4899 100%)',
+            boxShadow: '0 0 12px var(--primary)',
+            zIndex: 9999,
+            transition: 'width 0.1s ease-out'
+          }}
+        />
 
-      <div className="ticks"></div>
+        {/* Dynamic Cursor Ambient Glow */}
+        <div
+          style={{
+            position: 'fixed',
+            top: mousePos.y - 250,
+            left: mousePos.x - 250,
+            width: '500px',
+            height: '500px',
+            background: 'radial-gradient(circle, var(--primary-glow) 0%, transparent 70%)',
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            zIndex: 1,
+            opacity: 0.18,
+            transition: 'transform 0.1s ease-out',
+            filter: 'blur(40px)'
+          }}
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Static Background Ambient Lights */}
+        <div className="bg-ambient-orb orb-1" />
+        <div className="bg-ambient-orb orb-2" />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* Full-Page Interactive 3D Starfield Background */}
+        <Interactive3DBackground currentTheme={currentTheme} />
+
+        {/* Navigation Bar */}
+        <Navbar currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
+
+        {/* Application Routes from src/routes */}
+        <AppRoutes
+          currentTheme={currentTheme}
+          setCurrentTheme={setCurrentTheme}
+        />
+
+        {/* Footer */}
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
 }
-
-export default App
