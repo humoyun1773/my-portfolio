@@ -69,7 +69,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             alignItems: 'center',
             gap: '0.6rem',
             fontWeight: 800,
-            fontSize: '1.2rem',
+            fontSize: '1.25rem',
             letterSpacing: '-0.02em',
             textDecoration: 'none',
             color: 'var(--text-main)',
@@ -79,9 +79,9 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
         >
           <div
             style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
+              width: '38px',
+              height: '38px',
+              borderRadius: '11px',
               background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
               display: 'flex',
               alignItems: 'center',
@@ -91,7 +91,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               flexShrink: 0
             }}
           >
-            <Code size={18} />
+            <Code size={20} strokeWidth={2.4} />
           </div>
           <span>
             Humoyun<span style={{ color: 'var(--primary)' }}>.Dev</span>
@@ -128,7 +128,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 onMouseEnterCapture={(e) => (e.currentTarget.style.color = 'var(--primary)')}
                 onMouseLeaveCapture={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
               >
-                <Icon size={16} />
+                <Icon size={16} strokeWidth={2.2} />
                 <span>{link.name}</span>
               </a>
             );
@@ -136,7 +136,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
         </div>
 
         {/* Right Actions Toolbar */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {/* Language Switcher */}
           <div style={{ position: 'relative' }}>
             <button
@@ -148,14 +148,17 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               className="btn btn-secondary"
               style={{
                 padding: '0.45rem 0.75rem',
-                fontSize: '0.82rem',
+                height: '38px',
+                fontSize: '0.85rem',
                 gap: '0.35rem',
                 borderRadius: 'var(--radius-sm)',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center'
               }}
               title="Tilni tanlang (Language)"
             >
-              <Globe size={15} color="var(--primary)" />
+              <Globe size={16} color="var(--primary)" strokeWidth={2.2} />
               <span style={{ fontWeight: 700 }}>
                 {LANG_OPTIONS.find((l) => l.code === lang)?.short || 'UZ'}
               </span>
@@ -210,7 +213,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             )}
           </div>
 
-          {/* Dark / Light Mode Toggle */}
+          {/* Dark / Light Mode Toggle Button */}
           <button
             onClick={() => {
               playClickSound();
@@ -219,10 +222,10 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             onMouseEnter={playHoverSound}
             className="btn btn-secondary"
             style={{
-              padding: '0.45rem',
+              padding: '0',
               borderRadius: 'var(--radius-sm)',
-              width: '36px',
-              height: '36px',
+              width: '38px',
+              height: '38px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -232,10 +235,14 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             title={isDark ? "Yorug' rejim (Light Mode)" : "Qorong'u rejim (Dark Mode)"}
             aria-label="Toggle Dark Light Mode"
           >
-            {isDark ? <Sun size={17} color="#f59e0b" /> : <Moon size={17} color="#7c3aed" />}
+            {isDark ? (
+              <Sun size={19} color="#f59e0b" strokeWidth={2.2} />
+            ) : (
+              <Moon size={19} color="#7c3aed" strokeWidth={2.2} />
+            )}
           </button>
 
-          {/* 3D Color Theme Selector Dropdown (Visible on Desktop >= 640px) */}
+          {/* 3D Color Theme Selector Button with Palette Icon */}
           {setCurrentTheme && (
             <div style={{ position: 'relative' }} className="desktop-theme-dropdown">
               <button
@@ -246,29 +253,23 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 onMouseEnter={playHoverSound}
                 className="btn btn-secondary"
                 style={{
-                  padding: '0.45rem 0.8rem',
+                  padding: '0.45rem 0.75rem',
+                  height: '38px',
                   fontSize: '0.82rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.45rem',
                   borderRadius: 'var(--radius-sm)',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  position: 'relative'
                 }}
                 title="3D Rang temasini tanlash"
               >
-                <span
-                  style={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '50%',
-                    backgroundColor: currentTheme?.previewColor || '#06b6d4',
-                    boxShadow: `0 0 8px ${currentTheme?.previewColor || '#06b6d4'}`
-                  }}
-                />
+                <Palette size={17} color={currentTheme?.previewColor || 'var(--primary)'} strokeWidth={2.2} />
                 <span className="theme-name-text">
                   {currentTheme?.name}
                 </span>
-                <ChevronDown size={13} />
+                <ChevronDown size={14} />
               </button>
 
               {themeDropdownOpen && (
@@ -346,12 +347,16 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             className="btn btn-primary nav-contact-btn"
             style={{
               padding: '0.5rem 1.1rem',
+              height: '38px',
               fontSize: '0.85rem',
               borderRadius: 'var(--radius-sm)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem'
             }}
           >
-            <Send size={14} />
+            <Send size={15} strokeWidth={2.2} />
             <span>{t.nav.hireMe}</span>
           </a>
 
@@ -363,9 +368,9 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             }}
             className="btn btn-secondary nav-mobile-toggle"
             style={{
-              padding: '0.45rem',
-              width: '36px',
-              height: '36px',
+              padding: '0',
+              width: '38px',
+              height: '38px',
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 'var(--radius-sm)',
@@ -374,7 +379,11 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             }}
             aria-label="Toggle Mobile Menu"
           >
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            {mobileMenuOpen ? (
+              <X size={20} strokeWidth={2.5} color="var(--text-main)" />
+            ) : (
+              <Menu size={20} strokeWidth={2.5} color="var(--text-main)" />
+            )}
           </button>
         </div>
       </div>
@@ -426,7 +435,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                   onMouseLeaveCapture={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)')}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <Icon size={18} color="var(--primary)" />
+                    <Icon size={18} color="var(--primary)" strokeWidth={2.2} />
                     <span>{link.name}</span>
                   </div>
                   <ChevronRight size={16} color="var(--text-subtle)" />
@@ -445,7 +454,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               className="btn btn-secondary"
               style={{ flex: 1, padding: '0.55rem', fontSize: '0.82rem', gap: '0.4rem', cursor: 'pointer' }}
             >
-              {isDark ? <Sun size={16} color="#f59e0b" /> : <Moon size={16} color="#7c3aed" />}
+              {isDark ? <Sun size={16} color="#f59e0b" strokeWidth={2.2} /> : <Moon size={16} color="#7c3aed" strokeWidth={2.2} />}
               <span>{isDark ? "Yorug' rejim" : "Qorong'u"}</span>
             </button>
 
@@ -470,7 +479,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
           {setCurrentTheme && (
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.75rem' }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-subtle)', marginBottom: '0.5rem', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                <Palette size={13} color="var(--primary)" />
+                <Palette size={14} color="var(--primary)" strokeWidth={2.2} />
                 <span>3D RANG TEMALARI:</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem' }}>
@@ -516,7 +525,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             className="btn btn-primary"
             style={{ width: '100%', marginTop: '0.25rem', padding: '0.75rem', cursor: 'pointer' }}
           >
-            <Send size={16} />
+            <Send size={16} strokeWidth={2.2} />
             <span>{t.nav.hireMe}</span>
           </a>
         </div>
