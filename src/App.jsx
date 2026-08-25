@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Interactive3DBackground from './components/3d/Interactive3DBackground';
+import CustomCursor from './components/ui/CustomCursor';
 import Navbar from './components/ui/Navbar';
 import Footer from './components/ui/Footer';
 import { AppRoutes } from './routes';
@@ -10,7 +11,6 @@ import { LanguageProvider } from './context/LanguageContext';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState(THEMES[0]);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -26,19 +26,14 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   return (
     <ThemeProvider>
       <LanguageProvider>
         <BrowserRouter>
           <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+            {/* Custom Interactive Cyber Cursor */}
+            <CustomCursor />
+
             {/* Top Scroll Neon Progress Bar */}
             <div
               style={{
@@ -51,24 +46,6 @@ export default function App() {
                 boxShadow: '0 0 12px var(--primary)',
                 zIndex: 9999,
                 transition: 'width 0.1s ease-out'
-              }}
-            />
-
-            {/* Dynamic Cursor Ambient Glow */}
-            <div
-              style={{
-                position: 'fixed',
-                top: mousePos.y - 250,
-                left: mousePos.x - 250,
-                width: '500px',
-                height: '500px',
-                background: 'radial-gradient(circle, var(--primary-glow) 0%, transparent 70%)',
-                borderRadius: '50%',
-                pointerEvents: 'none',
-                zIndex: 1,
-                opacity: 0.18,
-                transition: 'transform 0.1s ease-out',
-                filter: 'blur(40px)'
               }}
             />
 

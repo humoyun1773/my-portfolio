@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Menu, X, Code, ChevronDown, Check, Send, Sun, Moon, 
-  Globe, Home, Sparkles, Layers, Milestone, Mail, ChevronRight 
+  Globe, Home, Sparkles, Layers, Milestone, Mail, ChevronRight, Palette 
 } from 'lucide-react';
 import { THEMES } from '../../data/portfolioData';
 import { useLanguage } from '../../context/LanguageContext';
@@ -48,7 +48,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
         zIndex: 100,
         transition: 'all 0.3s ease',
         background: isScrolled
-          ? (isDark ? 'rgba(10, 14, 26, 0.94)' : 'rgba(255, 255, 255, 0.94)')
+          ? (isDark ? 'rgba(10, 14, 26, 0.95)' : 'rgba(255, 255, 255, 0.95)')
           : (isDark ? 'rgba(10, 14, 26, 0.6)' : 'rgba(255, 255, 255, 0.6)'),
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
@@ -73,6 +73,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             letterSpacing: '-0.02em',
             textDecoration: 'none',
             color: 'var(--text-main)',
+            cursor: 'pointer',
             flexShrink: 0
           }}
         >
@@ -121,6 +122,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.45rem',
+                  cursor: 'pointer',
                   position: 'relative'
                 }}
                 onMouseEnterCapture={(e) => (e.currentTarget.style.color = 'var(--primary)')}
@@ -148,7 +150,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 padding: '0.45rem 0.75rem',
                 fontSize: '0.82rem',
                 gap: '0.35rem',
-                borderRadius: 'var(--radius-sm)'
+                borderRadius: 'var(--radius-sm)',
+                cursor: 'pointer'
               }}
               title="Tilni tanlang (Language)"
             >
@@ -223,6 +226,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              cursor: 'pointer',
               flexShrink: 0
             }}
             title={isDark ? "Yorug' rejim (Light Mode)" : "Qorong'u rejim (Dark Mode)"}
@@ -247,7 +251,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.45rem',
-                  borderRadius: 'var(--radius-sm)'
+                  borderRadius: 'var(--radius-sm)',
+                  cursor: 'pointer'
                 }}
                 title="3D Rang temasini tanlash"
               >
@@ -285,8 +290,9 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                     gap: '0.25rem'
                   }}
                 >
-                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-subtle)', padding: '0.25rem 0.5rem' }}>
-                    3D NEON TEMALARI
+                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-subtle)', padding: '0.25rem 0.5rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <Palette size={13} color="var(--primary)" />
+                    <span>3D NEON TEMALARI</span>
                   </div>
                   {THEMES.map((tItem) => (
                     <button
@@ -341,7 +347,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             style={{
               padding: '0.5rem 1.1rem',
               fontSize: '0.85rem',
-              borderRadius: 'var(--radius-sm)'
+              borderRadius: 'var(--radius-sm)',
+              cursor: 'pointer'
             }}
           >
             <Send size={14} />
@@ -362,6 +369,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 'var(--radius-sm)',
+              cursor: 'pointer',
               flexShrink: 0
             }}
             aria-label="Toggle Mobile Menu"
@@ -411,7 +419,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    background: 'rgba(255, 255, 255, 0.02)'
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    cursor: 'pointer'
                   }}
                   onMouseEnterCapture={(e) => (e.currentTarget.style.background = 'rgba(var(--primary-rgb), 0.12)')}
                   onMouseLeaveCapture={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)')}
@@ -426,11 +435,43 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             })}
           </div>
 
+          {/* Quick Mobile Controls (Theme & Languages) */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={() => {
+                playClickSound();
+                toggleTheme();
+              }}
+              className="btn btn-secondary"
+              style={{ flex: 1, padding: '0.55rem', fontSize: '0.82rem', gap: '0.4rem', cursor: 'pointer' }}
+            >
+              {isDark ? <Sun size={16} color="#f59e0b" /> : <Moon size={16} color="#7c3aed" />}
+              <span>{isDark ? "Yorug' rejim" : "Qorong'u"}</span>
+            </button>
+
+            <div style={{ display: 'flex', gap: '0.25rem' }}>
+              {LANG_OPTIONS.map((opt) => (
+                <button
+                  key={opt.code}
+                  onClick={() => {
+                    playClickSound();
+                    setLang(opt.code);
+                  }}
+                  className={`btn ${lang === opt.code ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ padding: '0.55rem 0.65rem', fontSize: '0.78rem', cursor: 'pointer' }}
+                >
+                  {opt.flag} {opt.short}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* 3D Color Theme Switcher in Mobile Drawer */}
           {setCurrentTheme && (
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.75rem' }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-subtle)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
-                3D RANG TEMALARI:
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-subtle)', marginBottom: '0.5rem', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Palette size={13} color="var(--primary)" />
+                <span>3D RANG TEMALARI:</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem' }}>
                 {THEMES.map((tItem) => {
@@ -447,7 +488,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                         padding: '0.45rem 0.65rem',
                         fontSize: '0.78rem',
                         justifyContent: 'flex-start',
-                        gap: '0.45rem'
+                        gap: '0.45rem',
+                        cursor: 'pointer'
                       }}
                     >
                       <span
@@ -472,7 +514,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
             className="btn btn-primary"
-            style={{ width: '100%', marginTop: '0.25rem', padding: '0.75rem' }}
+            style={{ width: '100%', marginTop: '0.25rem', padding: '0.75rem', cursor: 'pointer' }}
           >
             <Send size={16} />
             <span>{t.nav.hireMe}</span>
