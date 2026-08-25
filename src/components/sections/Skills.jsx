@@ -4,7 +4,6 @@ import {
   Cpu, Boxes, Send, GitBranch, Zap, Smartphone, Sparkles 
 } from 'lucide-react';
 import TiltCard from '../3d/TiltCard';
-import TechCube3D from '../3d/TechCube3D';
 import { SKILLS_DATA } from '../../data/portfolioData';
 import { playHoverSound, playClickSound } from '../../utils/soundEffects';
 
@@ -23,7 +22,7 @@ const ICON_MAP = {
   Smartphone
 };
 
-export default function Skills({ currentTheme }) {
+export default function Skills() {
   const [activeCategory, setActiveCategory] = useState("Barchasi");
 
   const categories = ["Barchasi", ...SKILLS_DATA.map((c) => c.category)];
@@ -170,9 +169,6 @@ export default function Skills({ currentTheme }) {
             );
           })}
         </div>
-
-        {/* 3D Interactive Tech Cube Showcase */}
-        <TechCube3D currentTheme={currentTheme} />
       </div>
     </section>
   );

@@ -24,8 +24,6 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
     { name: "Asosiy", href: "#hero" },
     { name: "Ko'nikmalar", href: "#skills" },
     { name: "Loyihalar", href: "#projects" },
-    { name: "State Lab", href: "#playground" },
-    { name: "Terminal", href: "#terminal" },
     { name: "Yo'l xaritasi", href: "#roadmap" },
     { name: "Aloqa", href: "#contact" }
   ];

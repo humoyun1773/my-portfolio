@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Download, Disc, Box, CircleDot, Activity, Volume2, VolumeX, Sparkles, Mail } from 'lucide-react';
+import { ArrowRight, Download, Disc, Box, CircleDot, Activity, Volume2, VolumeX, Sparkles, Mail, Send } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TelegramIcon } from '../ui/Icons';
 import Canvas3D from '../3d/Canvas3D';
 import { PERSONAL_INFO } from '../../data/portfolioData';
@@ -210,14 +210,14 @@ export default function Hero({ currentTheme }) {
               </button>
 
               <a
-                href="#playground"
+                href="#contact"
                 onMouseEnter={playHoverSound}
                 onClick={playClickSound}
                 className="btn btn-secondary"
-                title="State Management Playground"
+                title="Bog'lanish"
               >
-                <Sparkles size={16} color="var(--primary)" />
-                <span>State Laboratoriya</span>
+                <Send size={16} color="var(--primary)" />
+                <span>Bog'lanish</span>
               </a>
             </div>
 
