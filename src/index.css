@@ -78,6 +78,30 @@ body.theme-aurora {
   --bg-card-hover: rgba(42, 24, 77, 0.85);
 }
 
+/* Theme: Light Studio */
+[data-theme="light"], body.theme-light {
+  --primary: #0284c7;
+  --primary-rgb: 2, 132, 199;
+  --primary-glow: rgba(2, 132, 199, 0.25);
+  --secondary: #7c3aed;
+  --secondary-rgb: 124, 58, 237;
+  --secondary-glow: rgba(124, 58, 237, 0.25);
+  
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-card-hover: rgba(255, 255, 255, 0.98);
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(2, 132, 199, 0.5);
+  
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
 /* Reset & Box Sizing */
 *, *::before, *::after {
   box-sizing: border-box;

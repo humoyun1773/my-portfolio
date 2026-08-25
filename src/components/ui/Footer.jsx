@@ -1,8 +1,11 @@
 import React from 'react';
 import { ArrowUp, Code, Sparkles } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 import { playClickSound, playHoverSound } from '../../utils/soundEffects';
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   const scrollToTop = () => {
     playClickSound();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -11,8 +14,8 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: 'rgba(8, 12, 22, 0.95)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--bg-surface)',
+        borderTop: '1px solid var(--border-color)',
         padding: '3rem 0 2rem 0',
         position: 'relative',
         zIndex: 10
@@ -27,7 +30,7 @@ export default function Footer() {
             justifyContent: 'space-between',
             gap: '1.5rem',
             paddingBottom: '2rem',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
+            borderBottom: '1px solid var(--border-color)'
           }}
         >
           {/* Logo & Tagline */}
@@ -47,7 +50,7 @@ export default function Footer() {
               <Code size={20} />
             </div>
             <div>
-              <div style={{ fontWeight: 800, fontSize: '1.15rem' }}>
+              <div style={{ fontWeight: 800, fontSize: '1.15rem', color: 'var(--text-main)' }}>
                 Humoyun<span style={{ color: 'var(--primary)' }}>.Dev</span>
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-subtle)' }}>
@@ -58,7 +61,7 @@ export default function Footer() {
 
           {/* Center Quote */}
           <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <span>React, TypeScript, Zustand & Redux bilan yaratildi</span>
+            <span>{t.footer.builtWith}</span>
             <Sparkles size={14} color="var(--primary)" />
           </div>
 
@@ -68,9 +71,9 @@ export default function Footer() {
             onMouseEnter={playHoverSound}
             className="btn btn-secondary"
             style={{ padding: '0.55rem 1rem', fontSize: '0.85rem' }}
-            title="Yuqoriga qaytish"
+            title={t.footer.backToTop}
           >
-            <span>Yuqoriga</span>
+            <span>{t.footer.backToTop}</span>
             <ArrowUp size={16} />
           </button>
         </div>
@@ -89,7 +92,7 @@ export default function Footer() {
           }}
         >
           <div>
-            © {new Date().getFullYear()} Barcha huquqlar himoyalangan.
+            © {new Date().getFullYear()} Qadamov Humoyun. {t.footer.rights}
           </div>
           <div>
             Design & Code by Qadamov Humoyun

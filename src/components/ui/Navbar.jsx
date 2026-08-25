@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Code, ChevronDown, Check, Send } from 'lucide-react';
+import { Menu, X, Code, ChevronDown, Check, Send, Sun, Moon, Globe } from 'lucide-react';
 import { THEMES } from '../../data/portfolioData';
+import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { playClickSound, playHoverSound } from '../../utils/soundEffects';
 
+const LANG_OPTIONS = [
+  { code: 'uz', label: "O'zbekcha", flag: '🇺🇿', short: 'UZ' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺', short: 'RU' },
+  { code: 'en', label: 'English', flag: '🇬🇧', short: 'EN' }
+];
+
 export default function Navbar({ currentTheme, setCurrentTheme }) {
+  const { lang, setLang, t } = useLanguage();
+  const { theme, toggleTheme, isDark } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: "Asosiy", href: "#hero" },
-    { name: "Ko'nikmalar", href: "#skills" },
-    { name: "Loyihalar", href: "#projects" },
-    { name: "Yo'l xaritasi", href: "#roadmap" },
-    { name: "Aloqa", href: "#contact" }
+    { name: t.nav.about, href: "#hero" },
+    { name: t.nav.skills, href: "#skills" },
+    { name: t.nav.projects, href: "#projects" },
+    { name: t.nav.roadmap, href: "#roadmap" },
+    { name: t.nav.contact, href: "#contact" }
   ];
 
   return (
@@ -38,12 +45,12 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
         zIndex: 100,
         transition: 'all 0.3s ease',
         background: isScrolled
-          ? 'rgba(10, 14, 26, 0.85)'
-          : 'rgba(10, 14, 26, 0.4)',
+          ? (isDark ? 'rgba(10, 14, 26, 0.88)' : 'rgba(255, 255, 255, 0.88)')
+          : (isDark ? 'rgba(10, 14, 26, 0.4)' : 'rgba(255, 255, 255, 0.4)'),
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
         borderBottom: isScrolled
-          ? '1px solid rgba(255, 255, 255, 0.08)'
+          ? '1px solid var(--border-color)'
           : '1px solid transparent',
         padding: isScrolled ? '0.75rem 0' : '1.25rem 0'
       }}
@@ -61,7 +68,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             fontWeight: 800,
             fontSize: '1.25rem',
             letterSpacing: '-0.02em',
-            textDecoration: 'none'
+            textDecoration: 'none',
+            color: 'var(--text-main)'
           }}
         >
           <div
@@ -100,122 +108,214 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               onMouseEnter={playHoverSound}
               style={{
                 fontSize: '0.92rem',
-                fontWeight: 500,
+                fontWeight: 600,
                 color: 'var(--text-muted)',
                 transition: 'color 0.2s ease',
                 position: 'relative'
               }}
-              onMouseEnter={(e) => {
-                playHoverSound();
-                e.currentTarget.style.color = '#ffffff';
+              onMouseEnterCapture={(e) => {
+                e.currentTarget.style.color = 'var(--primary)';
               }}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+              onMouseLeaveCapture={(e) => {
+                e.currentTarget.style.color = 'var(--text-muted)';
+              }}
             >
               {link.name}
             </a>
           ))}
         </div>
 
-        {/* Right Actions: Theme Selector & Contact Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {/* Theme Selector Dropdown */}
+        {/* Right Actions: Lang Switcher, Dark/Light Toggle, 3D Theme Selector & Contact Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          {/* Language Switcher */}
           <div style={{ position: 'relative' }}>
             <button
               onClick={() => {
                 playClickSound();
-                setThemeDropdownOpen(!themeDropdownOpen);
+                setLangMenuOpen(!langMenuOpen);
               }}
               onMouseEnter={playHoverSound}
               className="btn btn-secondary"
-              style={{
-                padding: '0.5rem 0.9rem',
-                fontSize: '0.85rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}
-              title="Rang temasini o'zgartirish"
+              style={{ padding: '0.5rem 0.8rem', fontSize: '0.82rem', gap: '0.35rem' }}
+              title="Tilni tanlang (Language)"
             >
-              <span
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%',
-                  backgroundColor: currentTheme.previewColor,
-                  boxShadow: `0 0 8px ${currentTheme.previewColor}`
-                }}
-              />
-              <span className="theme-name-text">
-                {currentTheme.name}
+              <Globe size={15} color="var(--primary)" />
+              <span style={{ fontWeight: 700 }}>
+                {LANG_OPTIONS.find((l) => l.code === lang)?.short || 'UZ'}
               </span>
-              <ChevronDown size={14} />
             </button>
 
-            {themeDropdownOpen && (
+            {langMenuOpen && (
               <div
                 style={{
                   position: 'absolute',
-                  top: '110%',
+                  top: '125%',
                   right: 0,
-                  width: '200px',
-                  background: 'rgba(15, 23, 42, 0.95)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'var(--bg-surface)',
+                  border: '1px solid var(--border-color)',
                   borderRadius: 'var(--radius-md)',
-                  padding: '0.5rem',
-                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.6)',
-                  zIndex: 200,
+                  padding: '0.35rem',
+                  boxShadow: 'var(--shadow-card)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.25rem'
+                  gap: '0.2rem',
+                  minWidth: '135px',
+                  zIndex: 200
                 }}
               >
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-subtle)', padding: '0.25rem 0.5rem' }}>
-                  RANG TEMALARI
-                </div>
-                {THEMES.map((t) => (
+                {LANG_OPTIONS.map((opt) => (
                   <button
-                    key={t.id}
+                    key={opt.code}
                     onClick={() => {
                       playClickSound();
-                      setCurrentTheme(t);
-                      setThemeDropdownOpen(false);
+                      setLang(opt.code);
+                      setLangMenuOpen(false);
                     }}
-                    onMouseEnter={playHoverSound}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
-                      width: '100%',
-                      padding: '0.5rem 0.6rem',
-                      background: currentTheme.id === t.id ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                      gap: '0.55rem',
+                      padding: '0.45rem 0.75rem',
+                      background: lang === opt.code ? 'rgba(var(--primary-rgb), 0.15)' : 'transparent',
+                      color: lang === opt.code ? 'var(--primary)' : 'var(--text-main)',
                       border: 'none',
                       borderRadius: 'var(--radius-sm)',
-                      color: currentTheme.id === t.id ? '#ffffff' : 'var(--text-muted)',
                       cursor: 'pointer',
-                      fontSize: '0.85rem',
-                      textAlign: 'left',
-                      transition: 'background 0.2s ease'
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      textAlign: 'left'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                      <span
-                        style={{
-                          width: '12px',
-                          height: '12px',
-                          borderRadius: '50%',
-                          backgroundColor: t.previewColor,
-                          boxShadow: `0 0 8px ${t.previewColor}`
-                        }}
-                      />
-                      {t.name}
-                    </div>
-                    {currentTheme.id === t.id && <Check size={14} color="var(--primary)" />}
+                    <span>{opt.flag}</span>
+                    <span>{opt.label}</span>
                   </button>
                 ))}
               </div>
             )}
           </div>
+
+          {/* Dark / Light Mode Toggle */}
+          <button
+            onClick={() => {
+              playClickSound();
+              toggleTheme();
+            }}
+            onMouseEnter={playHoverSound}
+            className="btn btn-secondary"
+            style={{
+              padding: '0.5rem',
+              borderRadius: '50%',
+              width: '38px',
+              height: '38px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            title={isDark ? "Yorug' rejim (Light Mode)" : "Qorong'u rejim (Dark Mode)"}
+            aria-label="Toggle Dark Light Mode"
+          >
+            {isDark ? <Sun size={17} color="#f59e0b" /> : <Moon size={17} color="#7c3aed" />}
+          </button>
+
+          {/* 3D Color Theme Selector Dropdown */}
+          {setCurrentTheme && (
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setThemeDropdownOpen(!themeDropdownOpen);
+                }}
+                onMouseEnter={playHoverSound}
+                className="btn btn-secondary"
+                style={{
+                  padding: '0.5rem 0.85rem',
+                  fontSize: '0.85rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+                title="3D Rang temasini tanlash"
+              >
+                <span
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: currentTheme?.previewColor || '#06b6d4',
+                    boxShadow: `0 0 8px ${currentTheme?.previewColor || '#06b6d4'}`
+                  }}
+                />
+                <span className="theme-name-text">
+                  {currentTheme?.name}
+                </span>
+                <ChevronDown size={14} />
+              </button>
+
+              {themeDropdownOpen && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '110%',
+                    right: 0,
+                    width: '190px',
+                    background: 'var(--bg-surface)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: 'var(--radius-md)',
+                    padding: '0.5rem',
+                    boxShadow: 'var(--shadow-card)',
+                    zIndex: 200,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.25rem'
+                  }}
+                >
+                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-subtle)', padding: '0.25rem 0.5rem' }}>
+                    3D NEON TEMALARI
+                  </div>
+                  {THEMES.map((tItem) => (
+                    <button
+                      key={tItem.id}
+                      onClick={() => {
+                        playClickSound();
+                        setCurrentTheme(tItem);
+                        setThemeDropdownOpen(false);
+                      }}
+                      onMouseEnter={playHoverSound}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        padding: '0.5rem 0.6rem',
+                        background: currentTheme?.id === tItem.id ? 'rgba(var(--primary-rgb), 0.15)' : 'transparent',
+                        border: 'none',
+                        borderRadius: 'var(--radius-sm)',
+                        color: currentTheme?.id === tItem.id ? 'var(--primary)' : 'var(--text-main)',
+                        cursor: 'pointer',
+                        fontSize: '0.85rem',
+                        textAlign: 'left'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                        <span
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: tItem.previewColor,
+                            boxShadow: `0 0 8px ${tItem.previewColor}`
+                          }}
+                        />
+                        {tItem.name}
+                      </div>
+                      {currentTheme?.id === tItem.id && <Check size={14} color="var(--primary)" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Contact CTA */}
           <a
@@ -229,7 +329,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             }}
           >
             <Send size={15} />
-            <span>Bog'lanish</span>
+            <span>{t.nav.hireMe}</span>
           </a>
 
           {/* Mobile Menu Toggle Button */}
@@ -259,14 +359,14 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             top: '100%',
             left: 0,
             right: 0,
-            background: 'rgba(10, 14, 26, 0.98)',
+            background: 'var(--bg-surface)',
             backdropFilter: 'blur(24px)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+            borderBottom: '1px solid var(--border-color)',
             padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)'
+            boxShadow: 'var(--shadow-card)'
           }}
         >
           {navLinks.map((link) => (
@@ -279,12 +379,30 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 fontWeight: 600,
                 color: 'var(--text-main)',
                 padding: '0.5rem 0',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+                borderBottom: '1px solid var(--border-color)'
               }}
             >
               {link.name}
             </a>
           ))}
+
+          {/* Language Switcher in Mobile Drawer */}
+          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+            {LANG_OPTIONS.map((opt) => (
+              <button
+                key={opt.code}
+                onClick={() => {
+                  setLang(opt.code);
+                  setMobileMenuOpen(false);
+                }}
+                className={`btn ${lang === opt.code ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '0.5rem', fontSize: '0.85rem' }}
+              >
+                {opt.flag} {opt.short}
+              </button>
+            ))}
+          </div>
+
           <a
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
@@ -292,7 +410,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             style={{ width: '100%', marginTop: '0.5rem' }}
           >
             <Send size={16} />
-            <span>Bog'lanish</span>
+            <span>{t.nav.hireMe}</span>
           </a>
         </div>
       )}

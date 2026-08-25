@@ -4,7 +4,8 @@ import {
   Cpu, Boxes, Send, GitBranch, Zap, Smartphone, Sparkles 
 } from 'lucide-react';
 import TiltCard from '../3d/TiltCard';
-import { SKILLS_DATA } from '../../data/portfolioData';
+import { useLanguage } from '../../context/LanguageContext';
+import { SKILLS_LIST } from '../../data/translations';
 import { playHoverSound, playClickSound } from '../../utils/soundEffects';
 
 const ICON_MAP = {
@@ -23,13 +24,20 @@ const ICON_MAP = {
 };
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState("Barchasi");
+  const { lang, t } = useLanguage();
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  const categories = ["Barchasi", ...SKILLS_DATA.map((c) => c.category)];
+  const categories = [
+    { key: "all", label: t.skills.all },
+    { key: "core", label: t.skills.categories.core },
+    { key: "framework", label: t.skills.categories.framework },
+    { key: "state", label: t.skills.categories.state },
+    { key: "tools", label: t.skills.categories.tools }
+  ];
 
-  const displayedSkills = activeCategory === "Barchasi"
-    ? SKILLS_DATA.flatMap((cat) => cat.items)
-    : SKILLS_DATA.find((cat) => cat.category === activeCategory)?.items || [];
+  const displayedSkills = activeCategory === "all"
+    ? SKILLS_LIST
+    : SKILLS_LIST.filter((s) => s.category === activeCategory);
 
   return (
     <section id="skills" className="section">
@@ -38,13 +46,13 @@ export default function Skills() {
         <div className="section-header">
           <div className="section-badge">
             <Sparkles size={14} />
-            <span>Texnik Ko'nikmalar</span>
+            <span>{t.skills.badge}</span>
           </div>
           <h2 className="section-title">
-            Mening <span className="gradient-text">Tech Stack</span> & Vositalarim
+            {t.skills.title} <span className="gradient-text">{t.skills.titleHighlight}</span>
           </h2>
           <p className="section-desc">
-            Har bir loyihada toza arxitektura, yuqori unumdorlik va mukammal UI/UX yaratish uchun foydalanadigan asosiy texnologiyalarim.
+            {t.skills.description}
           </p>
         </div>
 
@@ -59,13 +67,13 @@ export default function Skills() {
           }}
         >
           {categories.map((cat) => {
-            const isActive = activeCategory === cat;
+            const isActive = activeCategory === cat.key;
             return (
               <button
-                key={cat}
+                key={cat.key}
                 onClick={() => {
                   playClickSound();
-                  setActiveCategory(cat);
+                  setActiveCategory(cat.key);
                 }}
                 onMouseEnter={playHoverSound}
                 style={{
@@ -74,15 +82,15 @@ export default function Skills() {
                   fontWeight: 600,
                   borderRadius: '9999px',
                   cursor: 'pointer',
-                  border: isActive ? '1px solid var(--primary)' : '1px solid rgba(255, 255, 255, 0.08)',
+                  border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-color)',
                   background: isActive ? 'linear-gradient(135deg, rgba(var(--primary-rgb), 0.25), rgba(var(--secondary-rgb), 0.25))' : 'rgba(255, 255, 255, 0.03)',
-                  color: isActive ? '#ffffff' : 'var(--text-muted)',
+                  color: isActive ? 'var(--primary)' : 'var(--text-muted)',
                   backdropFilter: 'blur(8px)',
                   boxShadow: isActive ? '0 0 15px var(--primary-glow)' : 'none',
                   transition: 'all 0.25s ease'
                 }}
               >
-                {cat}
+                {cat.label}
               </button>
             );
           })}
@@ -92,6 +100,8 @@ export default function Skills() {
         <div className="grid-3">
           {displayedSkills.map((skill, index) => {
             const IconComponent = ICON_MAP[skill.icon] || Code2;
+            const description = skill.desc[lang] || skill.desc.uz;
+
             return (
               <TiltCard key={index} style={{ padding: '1.75rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
@@ -113,11 +123,11 @@ export default function Skills() {
                       <IconComponent size={24} />
                     </div>
                     <div>
-                      <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>
+                      <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)' }}>
                         {skill.name}
                       </h3>
                       <span style={{ fontSize: '0.8rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
-                        Daraja: {skill.level}%
+                        {t.skills.level}: {skill.level}%
                       </span>
                     </div>
                   </div>
@@ -125,12 +135,12 @@ export default function Skills() {
                   <span
                     style={{
                       padding: '0.25rem 0.65rem',
-                      background: 'rgba(255, 255, 255, 0.06)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      background: 'rgba(var(--primary-rgb), 0.1)',
+                      border: '1px solid rgba(var(--primary-rgb), 0.25)',
                       borderRadius: '9999px',
                       fontSize: '0.72rem',
                       fontWeight: 600,
-                      color: 'var(--text-main)',
+                      color: 'var(--primary)',
                       letterSpacing: '0.02em'
                     }}
                   >
@@ -139,7 +149,7 @@ export default function Skills() {
                 </div>
 
                 <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.25rem', minHeight: '42px' }}>
-                  {skill.description}
+                  {description}
                 </p>
 
                 <div>

@@ -3,10 +3,12 @@ import { Send, MessageCircle, Mail, Phone, MapPin, Copy, Check, CheckCircle2, Gl
 import confetti from 'canvas-confetti';
 import TiltCard from '../3d/TiltCard';
 import CyberGlobe3D from '../3d/CyberGlobe3D';
-import { PERSONAL_INFO } from '../../data/portfolioData';
+import { useLanguage } from '../../context/LanguageContext';
+import { PERSONAL_INFO } from '../../data/translations';
 import { playClickSound, playSuccessSound, playHoverSound } from '../../utils/soundEffects';
 
 export default function Contact({ currentTheme }) {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [copiedKey, setCopiedKey] = useState(null);
@@ -42,13 +44,13 @@ export default function Contact({ currentTheme }) {
         <div className="section-header">
           <div className="section-badge">
             <Send size={14} />
-            <span>Aloqa & Hamkorlik</span>
+            <span>{t.contact.badge}</span>
           </div>
           <h2 className="section-title">
-            Birgalikda <span className="gradient-text">Ajoyib Loyihalar</span> Yaratamiz
+            {t.contact.title} <span className="gradient-text">{t.contact.titleHighlight}</span>
           </h2>
           <p className="section-desc">
-            Yangi loyiha, jamoaga qo'shilish yoki hamkorlik takliflari bo'yicha istalgan vaqtda bog'lanishingiz mumkin.
+            {t.contact.description}
           </p>
         </div>
 
@@ -74,7 +76,7 @@ export default function Contact({ currentTheme }) {
                     fontWeight: 600
                   }}
                 >
-                  🟢 Toshkent, O'zbekiston
+                  🟢 {t.contact.locationVal}
                 </span>
               </div>
 
@@ -88,8 +90,8 @@ export default function Contact({ currentTheme }) {
 
             {/* Direct Reach Channels */}
             <TiltCard style={{ padding: '1.75rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff', marginBottom: '1.25rem' }}>
-                Tezkor Bog'lanish Kanallari
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '1.25rem' }}>
+                {t.contact.quickChannels}
               </h3>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -112,8 +114,8 @@ export default function Contact({ currentTheme }) {
                       <MessageCircle size={20} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Telegram</div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff', wordBreak: 'break-all' }}>{PERSONAL_INFO.telegramUsername}</div>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>{t.contact.telegram}</div>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--text-main)', wordBreak: 'break-all' }}>{PERSONAL_INFO.telegramUsername}</div>
                     </div>
                   </div>
 
@@ -123,7 +125,7 @@ export default function Contact({ currentTheme }) {
                       onMouseEnter={playHoverSound}
                       className="btn btn-secondary"
                       style={{ padding: '0.4rem 0.65rem', fontSize: '0.8rem' }}
-                      title="Nusxalash"
+                      title={t.contact.copy}
                     >
                       {copiedKey === 'telegram' ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
                     </button>
@@ -136,7 +138,7 @@ export default function Contact({ currentTheme }) {
                       className="btn btn-primary"
                       style={{ padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}
                     >
-                      Yozish
+                      {t.contact.write}
                     </a>
                   </div>
                 </div>
@@ -160,8 +162,8 @@ export default function Contact({ currentTheme }) {
                       <Mail size={20} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Email Pochta</div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff', wordBreak: 'break-all' }}>{PERSONAL_INFO.email}</div>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>{t.contact.email}</div>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--text-main)', wordBreak: 'break-all' }}>{PERSONAL_INFO.email}</div>
                     </div>
                   </div>
 
@@ -170,7 +172,7 @@ export default function Contact({ currentTheme }) {
                     onMouseEnter={playHoverSound}
                     className="btn btn-secondary"
                     style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
-                    title="Nusxalash"
+                    title={t.contact.copy}
                   >
                     {copiedKey === 'email' ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
                   </button>
@@ -195,8 +197,8 @@ export default function Contact({ currentTheme }) {
                       <Phone size={20} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Telefon</div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff' }}>{PERSONAL_INFO.phone}</div>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>{t.contact.phone}</div>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--text-main)' }}>{PERSONAL_INFO.phone}</div>
                     </div>
                   </div>
 
@@ -206,7 +208,7 @@ export default function Contact({ currentTheme }) {
                       onMouseEnter={playHoverSound}
                       className="btn btn-secondary"
                       style={{ padding: '0.4rem 0.65rem', fontSize: '0.8rem' }}
-                      title="Nusxalash"
+                      title={t.contact.copy}
                     >
                       {copiedKey === 'phone' ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
                     </button>
@@ -217,7 +219,7 @@ export default function Contact({ currentTheme }) {
                       className="btn btn-primary"
                       style={{ padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}
                     >
-                      Qo'ng'iroq
+                      {t.contact.call}
                     </a>
                   </div>
                 </div>
@@ -244,46 +246,46 @@ export default function Contact({ currentTheme }) {
                 >
                   <CheckCircle2 size={36} />
                 </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.6rem' }}>
-                  Xabaringiz Qabul Qilindi! 🎉
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.6rem' }}>
+                  {t.contact.successTitle}
                 </h3>
                 <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-                  E'tiboringiz uchun tashakkur! Tez orada ko'rsatilgan elektron pochta yoki Telegram orqali javob qaytaraman.
+                  {t.contact.successDesc}
                 </p>
                 <button
                   onClick={() => setIsSubmitted(false)}
                   className="btn btn-primary"
                   style={{ padding: '0.6rem 1.5rem' }}
                 >
-                  Yana xabar yozish
+                  {t.contact.sendAnother}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.5rem' }}>
-                  Xabar Yuborish
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.5rem' }}>
+                  {t.contact.formTitle}
                 </h3>
                 <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-                  Formani to'ldiring va to'g'ridan-to'g'ri bog'laning.
+                  {t.contact.formDesc}
                 </p>
 
                 <div style={{ marginBottom: '1.2rem' }}>
                   <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                    Ismingiz
+                    {t.contact.nameLabel}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Masalan: Sardor"
+                    placeholder={t.contact.namePlaceholder}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
                       background: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      border: '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-sm)',
-                      color: '#ffffff',
+                      color: 'var(--text-main)',
                       fontSize: '0.92rem',
                       outline: 'none'
                     }}
@@ -292,21 +294,21 @@ export default function Contact({ currentTheme }) {
 
                 <div style={{ marginBottom: '1.2rem' }}>
                   <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                    Email Manzilingiz
+                    {t.contact.emailLabel}
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="example@mail.com"
+                    placeholder={t.contact.emailPlaceholder}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
                       background: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      border: '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-sm)',
-                      color: '#ffffff',
+                      color: 'var(--text-main)',
                       fontSize: '0.92rem',
                       outline: 'none'
                     }}
@@ -315,21 +317,21 @@ export default function Contact({ currentTheme }) {
 
                 <div style={{ marginBottom: '1.5rem' }}>
                   <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                    Xabar Matni
+                    {t.contact.messageLabel}
                   </label>
                   <textarea
                     required
                     rows={4}
-                    placeholder="Loyiha haqida yoki taklifingizni yozing..."
+                    placeholder={t.contact.messagePlaceholder}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     style={{
                       width: '100%',
                       padding: '0.75rem 1rem',
                       background: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      border: '1px solid var(--border-color)',
                       borderRadius: 'var(--radius-sm)',
-                      color: '#ffffff',
+                      color: 'var(--text-main)',
                       fontSize: '0.92rem',
                       outline: 'none',
                       resize: 'none'
@@ -339,7 +341,7 @@ export default function Contact({ currentTheme }) {
 
                 <button type="submit" className="btn btn-primary btn-glow" style={{ width: '100%', padding: '0.85rem' }}>
                   <Send size={18} />
-                  <span>Xabarni Yuborish</span>
+                  <span>{t.contact.sendBtn}</span>
                 </button>
               </form>
             )}

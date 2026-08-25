@@ -2,16 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Download, Disc, Box, CircleDot, Activity, Volume2, VolumeX, Sparkles, Mail, Send } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, TelegramIcon } from '../ui/Icons';
 import Canvas3D from '../3d/Canvas3D';
-import { PERSONAL_INFO } from '../../data/portfolioData';
+import { useLanguage } from '../../context/LanguageContext';
+import { PERSONAL_INFO } from '../../data/translations';
 import { playHoverSound, playClickSound, playSuccessSound, toggleSound, isSoundEnabled } from '../../utils/soundEffects';
-
-const TYPING_WORDS = [
-  "Junior Frontend Developer",
-  "React & TypeScript Master",
-  "Zustand & Redux Specialist",
-  "TailwindCSS & 3D Web Creator",
-  "Postman API Integrator"
-];
 
 const SHAPES = [
   { id: 'torus', name: 'Torus Knot', icon: Disc },
@@ -21,6 +14,7 @@ const SHAPES = [
 ];
 
 export default function Hero({ currentTheme }) {
+  const { t } = useLanguage();
   const [wordIndex, setWordIndex] = useState(0);
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -28,8 +22,16 @@ export default function Hero({ currentTheme }) {
   const [activeShape, setActiveShape] = useState('torus');
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
 
+  const typingWords = t.hero.roles || [
+    "Junior Frontend Developer",
+    "React & TypeScript Master",
+    "Zustand & Redux Specialist",
+    "TailwindCSS & 3D Web Creator"
+  ];
+
   useEffect(() => {
-    const currentWord = TYPING_WORDS[wordIndex];
+    if (!typingWords.length) return;
+    const currentWord = typingWords[wordIndex % typingWords.length];
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
@@ -44,7 +46,7 @@ export default function Hero({ currentTheme }) {
         setText(currentWord.substring(0, text.length - 1));
         if (text.length === 0) {
           setIsDeleting(false);
-          setWordIndex((prev) => (prev + 1) % TYPING_WORDS.length);
+          setWordIndex((prev) => (prev + 1) % typingWords.length);
           setTypingSpeed(300);
         } else {
           setTypingSpeed(45);
@@ -53,7 +55,7 @@ export default function Hero({ currentTheme }) {
     }, typingSpeed);
 
     return () => clearTimeout(timer);
-  }, [text, isDeleting, wordIndex, typingSpeed]);
+  }, [text, isDeleting, wordIndex, typingWords, typingSpeed]);
 
   const handleDownloadCV = () => {
     playSuccessSound();
@@ -117,7 +119,7 @@ export default function Hero({ currentTheme }) {
                   }}
                   className="animate-pulse-glow"
                 />
-                <span>Yangi loyihalar va ish takliflariga tayyorman</span>
+                <span>{t.hero.statusBadge}</span>
               </div>
 
               <button
@@ -140,8 +142,8 @@ export default function Hero({ currentTheme }) {
                 letterSpacing: '-0.03em'
               }}
             >
-              Salom, Men <br />
-              <span className="gradient-text">Qadamov Humoyun</span>
+              {t.hero.greeting} <br />
+              <span className="gradient-text">{t.hero.title}</span>
             </h1>
 
             <div
@@ -177,9 +179,7 @@ export default function Hero({ currentTheme }) {
                 marginBottom: '2.5rem'
               }}
             >
-              Zamonaviy <strong>HTML5, CSS3, JavaScript, TypeScript, React</strong> va 
-              kuchli state boshqaruvchilari (<strong>Zustand, Redux</strong>) yordamida 
-              foydalanuvchilarga yoqadigan, 3D interaktiv va tezkor veb-ilovalarni yarataman.
+              {t.hero.description}
             </p>
 
             <div
@@ -196,7 +196,7 @@ export default function Hero({ currentTheme }) {
                 onClick={playClickSound}
                 className="btn btn-primary btn-glow"
               >
-                <span>Loyihalarni ko'rish</span>
+                <span>{t.hero.viewProjects}</span>
                 <ArrowRight size={18} />
               </a>
 
@@ -206,7 +206,7 @@ export default function Hero({ currentTheme }) {
                 className="btn btn-secondary"
               >
                 <Download size={18} />
-                <span>CV Yuklab olish</span>
+                <span>{t.hero.downloadCV}</span>
               </button>
 
               <a
@@ -214,16 +214,16 @@ export default function Hero({ currentTheme }) {
                 onMouseEnter={playHoverSound}
                 onClick={playClickSound}
                 className="btn btn-secondary"
-                title="Bog'lanish"
+                title={t.hero.contactMe}
               >
                 <Send size={16} color="var(--primary)" />
-                <span>Bog'lanish</span>
+                <span>{t.hero.contactMe}</span>
               </a>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <span style={{ fontSize: '0.85rem', color: 'var(--text-subtle)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Ijtimoiy Tarmoqlar:
+                Ijtimoiy:
               </span>
               <div style={{ display: 'flex', gap: '0.6rem' }}>
                 {[
@@ -291,8 +291,8 @@ export default function Hero({ currentTheme }) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 gap: '0.35rem',
-                background: 'rgba(15, 23, 42, 0.85)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'var(--bg-surface)',
+                border: '1px solid var(--border-color)',
                 padding: '0.35rem 0.5rem',
                 borderRadius: '9999px',
                 backdropFilter: 'blur(12px)',
@@ -302,7 +302,7 @@ export default function Hero({ currentTheme }) {
               }}
             >
               <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: 600, paddingLeft: '0.5rem', paddingRight: '0.25rem' }}>
-                3D SHAKL:
+                {t.hero.shapesTitle || "3D SHAKL:"}
               </span>
               {SHAPES.map((shape) => {
                 const Icon = shape.icon;
@@ -326,7 +326,7 @@ export default function Hero({ currentTheme }) {
                       cursor: 'pointer',
                       border: isCurrent ? '1px solid var(--primary)' : '1px solid transparent',
                       background: isCurrent ? 'linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--secondary-rgb), 0.3))' : 'transparent',
-                      color: isCurrent ? '#ffffff' : 'var(--text-muted)',
+                      color: isCurrent ? 'var(--primary)' : 'var(--text-muted)',
                       transition: 'all 0.2s ease'
                     }}
                   >
@@ -345,25 +345,37 @@ export default function Hero({ currentTheme }) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1.2rem',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                border: '1px solid var(--border-color)',
+                boxShadow: 'var(--shadow-card)',
                 whiteSpace: 'nowrap',
                 zIndex: 10
               }}
             >
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>15+</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Loyihalar</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
+                  {t.hero.stats.projects}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                  {t.hero.stats.projectsLabel}
+                </div>
               </div>
-              <div style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.1)' }} />
+              <div style={{ width: '1px', height: '24px', background: 'var(--border-color)' }} />
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--secondary)' }}>100%</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Sifatli Kod</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--secondary)' }}>
+                  {t.hero.stats.satisfaction}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                  {t.hero.stats.satisfactionLabel}
+                </div>
               </div>
-              <div style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.1)' }} />
+              <div style={{ width: '1px', height: '24px', background: 'var(--border-color)' }} />
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#10b981' }}>1+ Yil</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Tajriba</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#10b981' }}>
+                  {t.hero.stats.experience}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                  {t.hero.stats.experienceLabel}
+                </div>
               </div>
             </div>
           </div>
