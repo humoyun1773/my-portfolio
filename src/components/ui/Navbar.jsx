@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Code, ChevronDown, Check, Send, Sun, Moon, Globe } from 'lucide-react';
+import { Menu, X, Code, ChevronDown, Check, Send, Sun, Moon, Globe, Palette } from 'lucide-react';
 import { THEMES } from '../../data/portfolioData';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -45,18 +45,18 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
         zIndex: 100,
         transition: 'all 0.3s ease',
         background: isScrolled
-          ? (isDark ? 'rgba(10, 14, 26, 0.88)' : 'rgba(255, 255, 255, 0.88)')
-          : (isDark ? 'rgba(10, 14, 26, 0.4)' : 'rgba(255, 255, 255, 0.4)'),
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+          ? (isDark ? 'rgba(10, 14, 26, 0.92)' : 'rgba(255, 255, 255, 0.92)')
+          : (isDark ? 'rgba(10, 14, 26, 0.5)' : 'rgba(255, 255, 255, 0.5)'),
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         borderBottom: isScrolled
           ? '1px solid var(--border-color)'
           : '1px solid transparent',
-        padding: isScrolled ? '0.75rem 0' : '1.25rem 0'
+        padding: isScrolled ? '0.65rem 0' : '1.1rem 0'
       }}
     >
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {/* Logo */}
+        {/* Brand Logo */}
         <a
           href="#hero"
           onClick={playClickSound}
@@ -66,10 +66,11 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             alignItems: 'center',
             gap: '0.6rem',
             fontWeight: 800,
-            fontSize: '1.25rem',
+            fontSize: '1.2rem',
             letterSpacing: '-0.02em',
             textDecoration: 'none',
-            color: 'var(--text-main)'
+            color: 'var(--text-main)',
+            flexShrink: 0
           }}
         >
           <div
@@ -82,10 +83,11 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               alignItems: 'center',
               justifyContent: 'center',
               boxShadow: '0 0 15px var(--primary-glow)',
-              color: '#fff'
+              color: '#fff',
+              flexShrink: 0
             }}
           >
-            <Code size={20} />
+            <Code size={18} />
           </div>
           <span>
             Humoyun<span style={{ color: 'var(--primary)' }}>.Dev</span>
@@ -113,20 +115,16 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 transition: 'color 0.2s ease',
                 position: 'relative'
               }}
-              onMouseEnterCapture={(e) => {
-                e.currentTarget.style.color = 'var(--primary)';
-              }}
-              onMouseLeaveCapture={(e) => {
-                e.currentTarget.style.color = 'var(--text-muted)';
-              }}
+              onMouseEnterCapture={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+              onMouseLeaveCapture={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               {link.name}
             </a>
           ))}
         </div>
 
-        {/* Right Actions: Lang Switcher, Dark/Light Toggle, 3D Theme Selector & Contact Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        {/* Right Actions Toolbar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
           {/* Language Switcher */}
           <div style={{ position: 'relative' }}>
             <button
@@ -136,7 +134,12 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
               }}
               onMouseEnter={playHoverSound}
               className="btn btn-secondary"
-              style={{ padding: '0.5rem 0.8rem', fontSize: '0.82rem', gap: '0.35rem' }}
+              style={{
+                padding: '0.45rem 0.75rem',
+                fontSize: '0.82rem',
+                gap: '0.35rem',
+                borderRadius: 'var(--radius-sm)'
+              }}
               title="Tilni tanlang (Language)"
             >
               <Globe size={15} color="var(--primary)" />
@@ -159,7 +162,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '0.2rem',
-                  minWidth: '135px',
+                  minWidth: '140px',
                   zIndex: 200
                 }}
               >
@@ -203,13 +206,14 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             onMouseEnter={playHoverSound}
             className="btn btn-secondary"
             style={{
-              padding: '0.5rem',
-              borderRadius: '50%',
-              width: '38px',
-              height: '38px',
+              padding: '0.45rem',
+              borderRadius: 'var(--radius-sm)',
+              width: '36px',
+              height: '36px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexShrink: 0
             }}
             title={isDark ? "Yorug' rejim (Light Mode)" : "Qorong'u rejim (Dark Mode)"}
             aria-label="Toggle Dark Light Mode"
@@ -217,9 +221,9 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             {isDark ? <Sun size={17} color="#f59e0b" /> : <Moon size={17} color="#7c3aed" />}
           </button>
 
-          {/* 3D Color Theme Selector Dropdown */}
+          {/* 3D Color Theme Selector Dropdown (Visible on Desktop / Tablets >= 640px) */}
           {setCurrentTheme && (
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative' }} className="desktop-theme-dropdown">
               <button
                 onClick={() => {
                   playClickSound();
@@ -228,18 +232,19 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 onMouseEnter={playHoverSound}
                 className="btn btn-secondary"
                 style={{
-                  padding: '0.5rem 0.85rem',
-                  fontSize: '0.85rem',
+                  padding: '0.45rem 0.8rem',
+                  fontSize: '0.82rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem'
+                  gap: '0.45rem',
+                  borderRadius: 'var(--radius-sm)'
                 }}
                 title="3D Rang temasini tanlash"
               >
                 <span
                   style={{
-                    width: '12px',
-                    height: '12px',
+                    width: '10px',
+                    height: '10px',
                     borderRadius: '50%',
                     backgroundColor: currentTheme?.previewColor || '#06b6d4',
                     boxShadow: `0 0 8px ${currentTheme?.previewColor || '#06b6d4'}`
@@ -248,14 +253,14 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                 <span className="theme-name-text">
                   {currentTheme?.name}
                 </span>
-                <ChevronDown size={14} />
+                <ChevronDown size={13} />
               </button>
 
               {themeDropdownOpen && (
                 <div
                   style={{
                     position: 'absolute',
-                    top: '110%',
+                    top: '115%',
                     right: 0,
                     width: '190px',
                     background: 'var(--bg-surface)',
@@ -300,8 +305,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                         <span
                           style={{
-                            width: '12px',
-                            height: '12px',
+                            width: '10px',
+                            height: '10px',
                             borderRadius: '50%',
                             backgroundColor: tItem.previewColor,
                             boxShadow: `0 0 8px ${tItem.previewColor}`
@@ -317,22 +322,23 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             </div>
           )}
 
-          {/* Contact CTA */}
+          {/* Desktop Contact CTA */}
           <a
             href="#contact"
             onClick={playClickSound}
             onMouseEnter={playHoverSound}
             className="btn btn-primary nav-contact-btn"
             style={{
-              padding: '0.55rem 1.1rem',
-              fontSize: '0.88rem'
+              padding: '0.5rem 1.1rem',
+              fontSize: '0.85rem',
+              borderRadius: 'var(--radius-sm)'
             }}
           >
-            <Send size={15} />
+            <Send size={14} />
             <span>{t.nav.hireMe}</span>
           </a>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Menu Hamburger Button */}
           <button
             onClick={() => {
               playClickSound();
@@ -340,13 +346,17 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             }}
             className="btn btn-secondary nav-mobile-toggle"
             style={{
-              padding: '0.5rem',
+              padding: '0.45rem',
+              width: '36px',
+              height: '36px',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              borderRadius: 'var(--radius-sm)',
+              flexShrink: 0
             }}
-            aria-label="Toggle Menu"
+            aria-label="Toggle Mobile Menu"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
@@ -360,54 +370,89 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             left: 0,
             right: 0,
             background: 'var(--bg-surface)',
-            backdropFilter: 'blur(24px)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
             borderBottom: '1px solid var(--border-color)',
-            padding: '1.5rem',
+            padding: '1.25rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '1rem',
-            boxShadow: 'var(--shadow-card)'
+            gap: '0.75rem',
+            boxShadow: 'var(--shadow-card)',
+            maxHeight: 'calc(100vh - 70px)',
+            overflowY: 'auto'
           }}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                fontSize: '1.05rem',
-                fontWeight: 600,
-                color: 'var(--text-main)',
-                padding: '0.5rem 0',
-                borderBottom: '1px solid var(--border-color)'
-              }}
-            >
-              {link.name}
-            </a>
-          ))}
-
-          {/* Language Switcher in Mobile Drawer */}
-          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-            {LANG_OPTIONS.map((opt) => (
-              <button
-                key={opt.code}
-                onClick={() => {
-                  setLang(opt.code);
-                  setMobileMenuOpen(false);
+          {/* Nav Links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: 'var(--text-main)',
+                  padding: '0.65rem 0.85rem',
+                  borderRadius: 'var(--radius-sm)',
+                  transition: 'background 0.2s ease',
+                  display: 'block'
                 }}
-                className={`btn ${lang === opt.code ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ flex: 1, padding: '0.5rem', fontSize: '0.85rem' }}
+                onMouseEnterCapture={(e) => (e.currentTarget.style.background = 'rgba(var(--primary-rgb), 0.1)')}
+                onMouseLeaveCapture={(e) => (e.currentTarget.style.background = 'transparent')}
               >
-                {opt.flag} {opt.short}
-              </button>
+                {link.name}
+              </a>
             ))}
           </div>
 
+          {/* 3D Color Theme Switcher in Mobile Drawer */}
+          {setCurrentTheme && (
+            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.75rem' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-subtle)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                3D RANG TEMALARI:
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem' }}>
+                {THEMES.map((tItem) => {
+                  const isCurrent = currentTheme?.id === tItem.id;
+                  return (
+                    <button
+                      key={tItem.id}
+                      onClick={() => {
+                        playClickSound();
+                        setCurrentTheme(tItem);
+                      }}
+                      className={`btn ${isCurrent ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{
+                        padding: '0.45rem 0.65rem',
+                        fontSize: '0.78rem',
+                        justifyContent: 'flex-start',
+                        gap: '0.45rem'
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: '10px',
+                          height: '10px',
+                          borderRadius: '50%',
+                          backgroundColor: tItem.previewColor,
+                          boxShadow: `0 0 6px ${tItem.previewColor}`
+                        }}
+                      />
+                      <span>{tItem.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Mobile Direct Contact Button */}
           <a
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
             className="btn btn-primary"
-            style={{ width: '100%', marginTop: '0.5rem' }}
+            style={{ width: '100%', marginTop: '0.25rem', padding: '0.75rem' }}
           >
             <Send size={16} />
             <span>{t.nav.hireMe}</span>

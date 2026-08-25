@@ -548,6 +548,7 @@ input:focus, textarea:focus {
 /* Mobile & Small Tablets (< 768px) */
 @media (max-width: 768px) {
   .desktop-nav-links { display: none !important; }
+  .desktop-theme-dropdown { display: none !important; }
   .nav-mobile-toggle { display: flex !important; }
   .theme-name-text { display: none; }
   .nav-contact-btn { display: none; }
