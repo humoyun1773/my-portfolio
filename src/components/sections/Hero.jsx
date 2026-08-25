@@ -133,10 +133,10 @@ export default function Hero({ currentTheme }) {
 
             <h1
               style={{
-                fontSize: 'clamp(2.3rem, 5vw, 3.8rem)',
+                fontSize: 'clamp(2.6rem, 5.5vw, 4.4rem)',
                 lineHeight: 1.15,
-                fontWeight: 800,
-                marginBottom: '1.25rem',
+                fontWeight: 900,
+                marginBottom: '1.5rem',
                 letterSpacing: '-0.03em'
               }}
             >
@@ -146,14 +146,14 @@ export default function Hero({ currentTheme }) {
 
             <div
               style={{
-                fontSize: 'clamp(1.2rem, 2.5vw, 1.65rem)',
+                fontSize: 'clamp(1.35rem, 2.8vw, 1.95rem)',
                 fontWeight: 700,
                 color: 'var(--primary)',
-                marginBottom: '1.25rem',
+                marginBottom: '1.5rem',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.4rem',
-                minHeight: '2.4rem'
+                minHeight: '2.6rem'
               }}
             >
               <span>{text}</span>
@@ -170,11 +170,11 @@ export default function Hero({ currentTheme }) {
 
             <p
               style={{
-                fontSize: '1.05rem',
+                fontSize: '1.15rem',
                 color: 'var(--text-muted)',
-                lineHeight: 1.7,
-                maxWidth: '560px',
-                marginBottom: '2rem'
+                lineHeight: 1.8,
+                maxWidth: '680px',
+                marginBottom: '2.5rem'
               }}
             >
               Zamonaviy <strong>HTML5, CSS3, JavaScript, TypeScript, React</strong> va 
@@ -268,14 +268,14 @@ export default function Hero({ currentTheme }) {
             style={{
               position: 'relative',
               width: '100%',
-              minHeight: '480px',
+              minHeight: '540px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center'
             }}
           >
-            <div style={{ width: '100%', height: '420px', position: 'relative' }}>
+            <div style={{ width: '100%', height: '480px', position: 'relative' }}>
               <Canvas3D currentTheme={currentTheme} activeShape={activeShape} />
 
               <div className="floating-chip chip-1">⚛️ React 19</div>

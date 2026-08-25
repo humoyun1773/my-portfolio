@@ -20,7 +20,7 @@ export default function ExperienceRoadmap() {
           </p>
         </div>
 
-        <div style={{ maxWidth: '1020px', margin: '0 auto', position: 'relative' }}>
+        <div style={{ maxWidth: '1240px', margin: '0 auto', position: 'relative' }}>
           <div
             style={{
               position: 'absolute',
