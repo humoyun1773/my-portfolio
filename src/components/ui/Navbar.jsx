@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Code, ChevronDown, Check, Send, Sun, Moon, Globe, Palette } from 'lucide-react';
+import { 
+  Menu, X, Code, ChevronDown, Check, Send, Sun, Moon, 
+  Globe, Home, Sparkles, Layers, Milestone, Mail, ChevronRight 
+} from 'lucide-react';
 import { THEMES } from '../../data/portfolioData';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -28,11 +31,11 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
   }, []);
 
   const navLinks = [
-    { name: t.nav.about, href: "#hero" },
-    { name: t.nav.skills, href: "#skills" },
-    { name: t.nav.projects, href: "#projects" },
-    { name: t.nav.roadmap, href: "#roadmap" },
-    { name: t.nav.contact, href: "#contact" }
+    { name: t.nav.about, href: "#hero", icon: Home },
+    { name: t.nav.skills, href: "#skills", icon: Sparkles },
+    { name: t.nav.projects, href: "#projects", icon: Layers },
+    { name: t.nav.roadmap, href: "#roadmap", icon: Milestone },
+    { name: t.nav.contact, href: "#contact", icon: Mail }
   ];
 
   return (
@@ -45,8 +48,8 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
         zIndex: 100,
         transition: 'all 0.3s ease',
         background: isScrolled
-          ? (isDark ? 'rgba(10, 14, 26, 0.92)' : 'rgba(255, 255, 255, 0.92)')
-          : (isDark ? 'rgba(10, 14, 26, 0.5)' : 'rgba(255, 255, 255, 0.5)'),
+          ? (isDark ? 'rgba(10, 14, 26, 0.94)' : 'rgba(255, 255, 255, 0.94)')
+          : (isDark ? 'rgba(10, 14, 26, 0.6)' : 'rgba(255, 255, 255, 0.6)'),
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: isScrolled
@@ -94,33 +97,40 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
           </span>
         </a>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links with Icons */}
         <div
           style={{
             alignItems: 'center',
-            gap: '1.75rem'
+            gap: '1.5rem'
           }}
           className="desktop-nav-links"
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={playClickSound}
-              onMouseEnter={playHoverSound}
-              style={{
-                fontSize: '0.92rem',
-                fontWeight: 600,
-                color: 'var(--text-muted)',
-                transition: 'color 0.2s ease',
-                position: 'relative'
-              }}
-              onMouseEnterCapture={(e) => (e.currentTarget.style.color = 'var(--primary)')}
-              onMouseLeaveCapture={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={playClickSound}
+                onMouseEnter={playHoverSound}
+                style={{
+                  fontSize: '0.92rem',
+                  fontWeight: 600,
+                  color: 'var(--text-muted)',
+                  transition: 'color 0.2s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  position: 'relative'
+                }}
+                onMouseEnterCapture={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+                onMouseLeaveCapture={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+              >
+                <Icon size={16} />
+                <span>{link.name}</span>
+              </a>
+            );
+          })}
         </div>
 
         {/* Right Actions Toolbar */}
@@ -221,7 +231,7 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             {isDark ? <Sun size={17} color="#f59e0b" /> : <Moon size={17} color="#7c3aed" />}
           </button>
 
-          {/* 3D Color Theme Selector Dropdown (Visible on Desktop / Tablets >= 640px) */}
+          {/* 3D Color Theme Selector Dropdown (Visible on Desktop >= 640px) */}
           {setCurrentTheme && (
             <div style={{ position: 'relative' }} className="desktop-theme-dropdown">
               <button
@@ -382,28 +392,38 @@ export default function Navbar({ currentTheme, setCurrentTheme }) {
             overflowY: 'auto'
           }}
         >
-          {/* Nav Links */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: 'var(--text-main)',
-                  padding: '0.65rem 0.85rem',
-                  borderRadius: 'var(--radius-sm)',
-                  transition: 'background 0.2s ease',
-                  display: 'block'
-                }}
-                onMouseEnterCapture={(e) => (e.currentTarget.style.background = 'rgba(var(--primary-rgb), 0.1)')}
-                onMouseLeaveCapture={(e) => (e.currentTarget.style.background = 'transparent')}
-              >
-                {link.name}
-              </a>
-            ))}
+          {/* Nav Links with Icons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+            {navLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    color: 'var(--text-main)',
+                    padding: '0.7rem 0.85rem',
+                    borderRadius: 'var(--radius-sm)',
+                    transition: 'background 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    background: 'rgba(255, 255, 255, 0.02)'
+                  }}
+                  onMouseEnterCapture={(e) => (e.currentTarget.style.background = 'rgba(var(--primary-rgb), 0.12)')}
+                  onMouseLeaveCapture={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)')}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <Icon size={18} color="var(--primary)" />
+                    <span>{link.name}</span>
+                  </div>
+                  <ChevronRight size={16} color="var(--text-subtle)" />
+                </a>
+              );
+            })}
           </div>
 
           {/* 3D Color Theme Switcher in Mobile Drawer */}
