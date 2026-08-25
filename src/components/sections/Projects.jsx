@@ -223,31 +223,11 @@ export default function Projects() {
       {/* Project Detail Modal */}
       {selectedProject && (
         <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 1000,
-            background: 'rgba(0, 0, 0, 0.8)',
-            backdropFilter: 'blur(16px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1.5rem'
-          }}
+          className="project-modal-backdrop"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="glass-card"
-            style={{
-              maxWidth: '650px',
-              width: '100%',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              padding: '2rem',
-              background: '#0d1527',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              position: 'relative'
-            }}
+            className="glass-card project-modal-body"
             onClick={(e) => e.stopPropagation()}
           >
             <button

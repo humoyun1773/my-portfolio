@@ -462,6 +462,92 @@ a {
    (Mobile 320px - 480px, Tablet 481px - 1024px, Desktop 1025px+)
    ========================================================== */
 
+/* 3D Canvas Box */
+.hero-canvas-box {
+  height: 480px;
+  min-height: 480px;
+}
+
+/* Roadmap Layout Classes */
+.roadmap-line {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 24px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+  z-index: 1;
+}
+
+.roadmap-item {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+.roadmap-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-main);
+  border: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow);
+  flex-shrink: 0;
+}
+
+.roadmap-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Contact Channel Responsive Items */
+.contact-channel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  gap: 0.75rem;
+}
+
+.contact-channel-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* Project Modal Responsive Classes */
+.project-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.project-modal-body {
+  max-width: 650px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  background: #0d1527;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
 /* Touch & Mobile Optimizations */
 @media (hover: none) {
   .tilt-card {
@@ -503,6 +589,11 @@ html, body {
     gap: 2rem !important;
   }
 
+  .hero-canvas-box {
+    height: 320px !important;
+    min-height: 320px !important;
+  }
+
   .floating-chip {
     display: none !important;
   }
@@ -516,6 +607,30 @@ html, body {
     grid-template-columns: 1fr !important;
     gap: 1.25rem !important;
   }
+
+  /* Mobile Roadmap Adjustments */
+  .roadmap-line {
+    left: 17px !important;
+  }
+
+  .roadmap-item {
+    gap: 1rem !important;
+  }
+
+  .roadmap-icon {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Mobile Modal */
+  .project-modal-backdrop {
+    padding: 0.75rem !important;
+  }
+
+  .project-modal-body {
+    padding: 1.25rem !important;
+    max-height: 92vh !important;
+  }
 }
 
 /* Extra Small Phones (< 420px) */
@@ -526,6 +641,17 @@ html, body {
 
   .btn {
     width: 100% !important;
+  }
+
+  .contact-channel-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .contact-channel-actions {
+    width: 100% !important;
+    justify-content: flex-end !important;
+    margin-top: 0.5rem !important;
   }
 }
 

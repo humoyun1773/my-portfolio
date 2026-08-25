@@ -268,14 +268,13 @@ export default function Hero({ currentTheme }) {
             style={{
               position: 'relative',
               width: '100%',
-              minHeight: '540px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center'
             }}
           >
-            <div style={{ width: '100%', height: '480px', position: 'relative' }}>
+            <div className="hero-canvas-box" style={{ width: '100%', position: 'relative' }}>
               <Canvas3D currentTheme={currentTheme} activeShape={activeShape} />
 
               <div className="floating-chip chip-1">⚛️ React 19</div>
@@ -288,15 +287,18 @@ export default function Hero({ currentTheme }) {
             <div
               style={{
                 display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
                 alignItems: 'center',
-                gap: '0.4rem',
+                gap: '0.35rem',
                 background: 'rgba(15, 23, 42, 0.85)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 padding: '0.35rem 0.5rem',
                 borderRadius: '9999px',
                 backdropFilter: 'blur(12px)',
-                marginTop: '0.5rem',
-                zIndex: 10
+                marginTop: '0.75rem',
+                zIndex: 10,
+                maxWidth: '100%'
               }}
             >
               <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: 600, paddingLeft: '0.5rem', paddingRight: '0.25rem' }}>

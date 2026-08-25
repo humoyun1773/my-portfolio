@@ -20,50 +20,17 @@ export default function ExperienceRoadmap() {
           </p>
         </div>
 
-        <div style={{ maxWidth: '1240px', margin: '0 auto', position: 'relative' }}>
-          <div
-            style={{
-              position: 'absolute',
-              top: '20px',
-              bottom: '20px',
-              left: '24px',
-              width: '2px',
-              background: 'linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%)',
-              zIndex: 1
-            }}
-          />
+        <div className="roadmap-container" style={{ maxWidth: '1240px', margin: '0 auto', position: 'relative' }}>
+          <div className="roadmap-line" />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {ROADMAP_DATA.map((item, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: 'flex',
-                  gap: '1.75rem',
-                  alignItems: 'flex-start',
-                  position: 'relative',
-                  zIndex: 2
-                }}
-              >
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    background: 'var(--bg-main)',
-                    border: '2px solid var(--primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--primary)',
-                    boxShadow: '0 0 15px var(--primary-glow)',
-                    flexShrink: 0
-                  }}
-                >
-                  <CheckCircle2 size={22} />
+              <div key={idx} className="roadmap-item">
+                <div className="roadmap-icon">
+                  <CheckCircle2 size={20} />
                 </div>
 
-                <div style={{ flex: 1 }}>
+                <div className="roadmap-content">
                   <TiltCard style={{ padding: '1.75rem' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.75rem' }}>
                       <span

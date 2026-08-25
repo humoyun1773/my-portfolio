@@ -94,17 +94,7 @@ export default function Contact({ currentTheme }) {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {/* Telegram */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.85rem 1rem',
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: 'var(--radius-md)'
-                  }}
-                >
+                <div className="contact-channel-item">
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                     <div
                       style={{
@@ -115,18 +105,19 @@ export default function Contact({ currentTheme }) {
                         color: 'var(--primary)',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        flexShrink: 0
                       }}
                     >
                       <MessageCircle size={20} />
                     </div>
                     <div>
                       <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Telegram</div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff' }}>{PERSONAL_INFO.telegramUsername}</div>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff', wordBreak: 'break-all' }}>{PERSONAL_INFO.telegramUsername}</div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  <div className="contact-channel-actions">
                     <button
                       onClick={() => handleCopy(PERSONAL_INFO.telegramUsername, 'telegram')}
                       onMouseEnter={playHoverSound}
@@ -151,17 +142,7 @@ export default function Contact({ currentTheme }) {
                 </div>
 
                 {/* Email */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.85rem 1rem',
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: 'var(--radius-md)'
-                  }}
-                >
+                <div className="contact-channel-item">
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                     <div
                       style={{
@@ -172,14 +153,15 @@ export default function Contact({ currentTheme }) {
                         color: 'var(--secondary)',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        flexShrink: 0
                       }}
                     >
                       <Mail size={20} />
                     </div>
                     <div>
                       <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', fontWeight: 500 }}>Email Pochta</div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff' }}>{PERSONAL_INFO.email}</div>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#ffffff', wordBreak: 'break-all' }}>{PERSONAL_INFO.email}</div>
                     </div>
                   </div>
 
@@ -195,17 +177,7 @@ export default function Contact({ currentTheme }) {
                 </div>
 
                 {/* Phone */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.85rem 1rem',
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: 'var(--radius-md)'
-                  }}
-                >
+                <div className="contact-channel-item">
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                     <div
                       style={{
@@ -216,7 +188,8 @@ export default function Contact({ currentTheme }) {
                         color: '#10b981',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        flexShrink: 0
                       }}
                     >
                       <Phone size={20} />
@@ -227,7 +200,7 @@ export default function Contact({ currentTheme }) {
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  <div className="contact-channel-actions">
                     <button
                       onClick={() => handleCopy(PERSONAL_INFO.phone, 'phone')}
                       onMouseEnter={playHoverSound}
