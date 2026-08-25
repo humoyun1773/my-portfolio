@@ -341,39 +341,40 @@ export default function Hero({ currentTheme }) {
               className="glass-card"
               style={{
                 marginTop: '1.25rem',
-                padding: '0.75rem 1.4rem',
+                padding: '0.75rem clamp(0.75rem, 3vw, 1.4rem)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1.2rem',
+                justifyContent: 'center',
+                gap: 'clamp(0.6rem, 3vw, 1.2rem)',
                 border: '1px solid var(--border-color)',
                 boxShadow: 'var(--shadow-card)',
-                whiteSpace: 'nowrap',
+                maxWidth: '100%',
                 zIndex: 10
               }}
             >
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.25rem)', fontWeight: 800, color: 'var(--primary)' }}>
                   {t.hero.stats.projects}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
                   {t.hero.stats.projectsLabel}
                 </div>
               </div>
               <div style={{ width: '1px', height: '24px', background: 'var(--border-color)' }} />
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--secondary)' }}>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.25rem)', fontWeight: 800, color: 'var(--secondary)' }}>
                   {t.hero.stats.satisfaction}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
                   {t.hero.stats.satisfactionLabel}
                 </div>
               </div>
               <div style={{ width: '1px', height: '24px', background: 'var(--border-color)' }} />
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#10b981' }}>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.25rem)', fontWeight: 800, color: '#10b981' }}>
                   {t.hero.stats.experience}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
                   {t.hero.stats.experienceLabel}
                 </div>
               </div>
