@@ -14,12 +14,15 @@ export default function CyberGlobe3D({ currentTheme }) {
       container.removeChild(container.firstChild);
     }
 
+    const width = container.clientWidth || 280;
+    const height = container.clientHeight || 280;
+
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
     camera.position.z = 4.6;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
@@ -71,7 +74,7 @@ export default function CyberGlobe3D({ currentTheme }) {
     orbit2.rotation.y = Math.PI / 6;
     globeGroup.add(orbit2);
 
-    // 4. Pulsing Beacon for Location (Tashkent coords approximate on sphere)
+    // 4. Pulsing Beacon for Location (Tashkent coords)
     const beaconGeo = new THREE.SphereGeometry(0.08, 16, 16);
     const beaconMat = new THREE.MeshBasicMaterial({ color: '#10b981' });
     const beacon = new THREE.Mesh(beaconGeo, beaconMat);
@@ -108,7 +111,7 @@ export default function CyberGlobe3D({ currentTheme }) {
     pointLight.position.set(3, 3, 3);
     scene.add(pointLight);
 
-    // Mouse Drag Rotation Controls
+    // Mouse & Touch Drag Controls
     const handleMouseDown = (e) => {
       isDraggingRef.current = true;
       prevMouseRef.current = { x: e.clientX, y: e.clientY };
@@ -127,15 +130,42 @@ export default function CyberGlobe3D({ currentTheme }) {
       isDraggingRef.current = false;
     };
 
+    const handleTouchStart = (e) => {
+      if (e.touches.length > 0) {
+        isDraggingRef.current = true;
+        prevMouseRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isDraggingRef.current || e.touches.length === 0) return;
+      const dx = e.touches[0].clientX - prevMouseRef.current.x;
+      const dy = e.touches[0].clientY - prevMouseRef.current.y;
+      globeGroup.rotation.y += dx * 0.008;
+      globeGroup.rotation.x += dy * 0.008;
+      prevMouseRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    };
+
+    const handleTouchEnd = () => {
+      isDraggingRef.current = false;
+    };
+
     container.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
 
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
     const handleResize = () => {
       if (!container) return;
-      camera.aspect = container.clientWidth / container.clientHeight;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(w, h);
     };
     window.addEventListener('resize', handleResize);
 
@@ -169,6 +199,9 @@ export default function CyberGlobe3D({ currentTheme }) {
       container.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      container.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('resize', handleResize);
       if (container && renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -192,7 +225,8 @@ export default function CyberGlobe3D({ currentTheme }) {
         width: '100%',
         height: '280px',
         cursor: 'grab',
-        position: 'relative'
+        position: 'relative',
+        touchAction: 'none'
       }}
       title="3D Globusni aylantirish uchun ushlab torting"
     />

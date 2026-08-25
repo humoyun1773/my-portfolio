@@ -17,16 +17,19 @@ export default function Canvas3D({ currentTheme, activeShape = 'torus' }) {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
+    const width = container.clientWidth || 300;
+    const height = container.clientHeight || 300;
+
     const camera = new THREE.PerspectiveCamera(
       60,
-      container.clientWidth / container.clientHeight,
+      width / height,
       0.1,
       1000
     );
     camera.position.z = 4.2;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
@@ -171,7 +174,7 @@ export default function Canvas3D({ currentTheme, activeShape = 'torus' }) {
     scene.add(particleSystem);
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
     const pointLight = new THREE.PointLight(colorObj, 4, 25);
@@ -182,7 +185,7 @@ export default function Canvas3D({ currentTheme, activeShape = 'torus' }) {
     pointLight2.position.set(-3, -3, -2);
     scene.add(pointLight2);
 
-    // Mouse Interaction
+    // Mouse & Touch Interaction
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
@@ -194,16 +197,26 @@ export default function Canvas3D({ currentTheme, activeShape = 'torus' }) {
       mouseY = -(event.clientY / innerHeight - 0.5) * 2;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const handleTouchMove = (event) => {
+      if (event.touches.length > 0) {
+        const touch = event.touches[0];
+        const { innerWidth, innerHeight } = window;
+        mouseX = (touch.clientX / innerWidth - 0.5) * 2;
+        mouseY = -(touch.clientY / innerHeight - 0.5) * 2;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     const handleResize = () => {
       if (!container) return;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      if (width === 0 || height === 0) return;
-      camera.aspect = width / height;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
+      renderer.setSize(w, h);
     };
 
     window.addEventListener('resize', handleResize);
@@ -238,6 +251,7 @@ export default function Canvas3D({ currentTheme, activeShape = 'torus' }) {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('resize', handleResize);
       if (container && renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -257,8 +271,7 @@ export default function Canvas3D({ currentTheme, activeShape = 'torus' }) {
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '380px'
+        justifyContent: 'center'
       }}
     />
   );
