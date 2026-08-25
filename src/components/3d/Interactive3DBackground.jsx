@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function Interactive3DBackground({ currentTheme }) {
   const mountRef = useRef(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     const container = mountRef.current;
@@ -26,13 +28,13 @@ export default function Interactive3DBackground({ currentTheme }) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
 
-    const hexColor = currentTheme?.accent || '#06b6d4';
-    const secondaryColor = currentTheme?.secondaryColor || '#8b5cf6';
+    const hexColor = currentTheme?.accent || (isDark ? '#06b6d4' : '#0284c7');
+    const secondaryColor = currentTheme?.secondaryColor || (isDark ? '#8b5cf6' : '#7c3aed');
     const colorObj = new THREE.Color(hexColor);
     const colorSec = new THREE.Color(secondaryColor);
 
-    // Deep 3D Starfield & Particle Grid
-    const particleCount = 450;
+    // 3D Starfield & Particle Grid
+    const particleCount = 420;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -57,28 +59,34 @@ export default function Interactive3DBackground({ currentTheme }) {
     canvas.height = 32;
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    if (isDark) {
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    } else {
+      gradient.addColorStop(0, 'rgba(2, 132, 199, 1)');
+      gradient.addColorStop(0.4, 'rgba(124, 58, 237, 0.7)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    }
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 32, 32);
 
     const texture = new THREE.CanvasTexture(canvas);
 
     const material = new THREE.PointsMaterial({
-      size: 1.8,
+      size: isDark ? 1.8 : 2.2,
       vertexColors: true,
       map: texture,
       transparent: true,
-      opacity: 0.65,
-      blending: THREE.AdditiveBlending,
+      opacity: isDark ? 0.65 : 0.45,
+      blending: isDark ? THREE.AdditiveBlending : THREE.NormalBlending,
       depthWrite: false
     });
 
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    // Floating 3D Geometric Meshes in background
+    // Floating 3D Geometric Meshes
     const shapesGroup = new THREE.Group();
     scene.add(shapesGroup);
 
@@ -96,7 +104,7 @@ export default function Interactive3DBackground({ currentTheme }) {
         color: (i % 2 === 0) ? colorObj : colorSec,
         wireframe: true,
         transparent: true,
-        opacity: 0.18
+        opacity: isDark ? 0.18 : 0.12
       });
       const mesh = new THREE.Mesh(g, m);
       mesh.position.set(
@@ -176,7 +184,7 @@ export default function Interactive3DBackground({ currentTheme }) {
       floatingGeos.forEach((g) => g.dispose());
       renderer.dispose();
     };
-  }, [currentTheme]);
+  }, [currentTheme, isDark]);
 
   return (
     <div
@@ -186,7 +194,7 @@ export default function Interactive3DBackground({ currentTheme }) {
         inset: 0,
         zIndex: 0,
         pointerEvents: 'none',
-        opacity: 0.85
+        opacity: isDark ? 0.85 : 0.65
       }}
     />
   );
